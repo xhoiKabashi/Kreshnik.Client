@@ -9,7 +9,7 @@ WORKDIR /src
 COPY ["Kreshnik.Client/BlazorDex.csproj", "Kreshnik.Client/"]
 RUN dotnet restore "Kreshnik.Client/BlazorDex.csproj"
 COPY . .
-WORKDIR "/src/"
+WORKDIR "/src/Kreshnik.Client"
 RUN dotnet publish "BlazorDex.csproj" -c Release -o /app/publish
 
 # Copy the app to the base image and set the entry point
