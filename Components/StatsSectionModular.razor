@@ -1,0 +1,54 @@
+@using BlazorDex.Models
+
+<div class=" flex items-center  justify-between  w-full  gap-2 p-2 rounded-md"
+    style="background-color: rgba(128, 128, 128, 0.3);">
+    <div class=" flex items-center text-sm gap-2     @ButtonClass">
+        <img src=" @ImageSrc" class="h-8" alt="Stat Image">
+        <p class="text-yellow-300">@StatName: @StatValue</p>
+    </div>
+
+    @if (Points > 0)
+    {
+        <div class="flex items-center gap-2">
+            <button class="bg-yellow-500 hover:bg-yellow-600 text-gray-800 font-bold  px-2 rounded-md"
+                @onclick="() => ChangeStat(1)"><span>+</span></button>
+        </div>
+    }
+</div>
+
+
+@code {
+    [Parameter]
+    public string ImageSrc { get; set; }
+
+    [Parameter]
+    public string StatName { get; set; }
+
+    [Parameter]
+    public int StatValue { get; set; }
+
+    [Parameter]
+    public int Points { get; set; }
+
+    [Parameter]
+    public string ButtonClass { get; set; }
+
+    [Parameter]
+    public EventCallback<(string StatName, int Change)> OnStatChanged { get; set; }
+
+
+    private async Task IncreaseStat()
+    {
+        if (Points > 0)
+        {
+            await OnStatChanged.InvokeAsync((StatName, 1)); // Increase stat by 1
+        }
+    }
+    private async Task ChangeStat(int change)
+    {
+        if (Points > 0 || change < 0)
+        {
+            await OnStatChanged.InvokeAsync((StatName, change));
+        }
+    }
+}

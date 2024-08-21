@@ -1,0 +1,17 @@
+<button @onclick="OnClick" class="  text-yellow-500  py-2 px-3  flex flex-col justify-center items-center @ButtonClass">
+    @ChildContent</button>
+
+
+@code {
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    [Parameter]
+    public string ButtonClass { get; set; }
+
+    [Parameter]
+    public string ButtonStyle { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

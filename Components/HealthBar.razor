@@ -1,0 +1,62 @@
+<div class="flex justify-between items-center p-2 ">
+    <div class="flex flex-col gap-2">
+        <div class=" flex justify-center items-center gap-3">
+            <img src="svg/barbute.svg" alt="" class=" h-9" />
+            <div class="flex flex-col justify-center items-center text-text-main">
+                <p class="text-xl tracking-widest font-semibold">@HeroLevel</p>
+                <p class="text-xs font-thin">Level</p>
+            </div>
+        </div>
+        <div class="bg-red-700 h-3 rounded-full w-32 mr-2">
+            <div class="bg-yellow-500 h-3 rounded-full"
+                style="width: @((HeroHP ?? 0) == 0 ? "0%" : $"{(HeroHP ?? 0) * 100 / (HeroStartHP ?? 1)}%")">
+            </div>
+        </div>
+
+        <div class="flex justify-center gap-1">
+            <img src="svg/life-bar.svg" alt="" class=" h-5">
+            <p class="text-white"> @HeroStartHP</p>
+            <p class="text-white"> /</p>
+            <p class="text-white">@HeroHP</p>
+        </div>
+    </div>
+    <img src="image/vs.png" alt="" class=" h-14">
+    <div class="flex flex-col gap-2">
+        <div class=" flex justify-center items-center gap-3">
+            <div class="flex flex-col justify-center items-center text-text-main">
+                <p class="text-xl tracking-widest font-semibold">@EnemyLevel</p>
+                <p class="text-xs font-thin">Level</p>
+            </div>
+            <img src="svg/diablo-skull.svg" alt="" class=" h-9" />
+        </div>
+
+        <div class="bg-red-600 h-3 rounded-full w-32 mr-2">
+            <div class="bg-yellow-500 h-3 rounded-full"
+                style="width: @((EnemyHP == 0 ? 0 : Math.Max((EnemyHP * 100 / EnemyStartHP), 2)) + "%")">
+            </div>
+        </div>
+        <div class="flex justify-center gap-1">
+            <p class="text-white">@EnemyHP</p>
+            <p class="text-white"> /</p>
+            <p class="text-white"> @EnemyStartHP</p>
+            <img src="svg/life-bar.svg" alt="" class=" h-5">
+        </div>
+
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int? HeroHP { get; set; }
+    [Parameter]
+    public int? HeroStartHP { get; set; }
+    [Parameter]
+    public int EnemyHP { get; set; }
+    [Parameter]
+    public int EnemyStartHP { get; set; }
+    [Parameter]
+    public int HeroLevel { get; set; }
+    [Parameter]
+    public int EnemyLevel { get; set; }
+    public string HeroName { get; set; }
+}

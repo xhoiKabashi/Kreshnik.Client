@@ -1,0 +1,137 @@
+﻿@page "/"
+@using BlazorDex.Models
+@using BlazorDex.Util
+
+@inject HeroClient client
+@inject NavigationManager NavigationManager
+@inject HeroStateService HeroStateService
+
+<PageTitle>Home</PageTitle>
+
+<div class="w-full min-h-screen flex flex-col  justify-between items-center bg-cover bg-center"
+    style="background-image: url('image/poster.jpg');">
+
+
+    @if (isLoading)
+    {
+        <p class="text-white text-2xl">Loading...</p>
+    }
+    else if (hero != null)
+    {
+        @* <Toast IsVisible="@showLevelUpToast" NewLevel="@hero.Level" HpIncrease="@hpIncrease" DmgIncrease="@dmgIncrease"
+    OnClose="@CloseToast" /> *@
+        <LevelPoints Level="@hero.Level" Points="@hero.Points" />
+
+        <StatsSection />
+
+
+        <div class="mb-4 flex flex-col justify-center items-center z-0">
+            <img src="image/hero/hero.png" class=" h-68" alt="points" />
+
+
+            <div class="flex items-baseline w-48 h-8 bg-gray-800 border-2 border-white rounded-md p-1">
+                <div class="bg-red-700 text-white px-2">HP:</div>
+                <div class="bg-red-700 text-white flex-1 rounded-r-md pl-2">@hero.Hp</div>
+            </div>
+            <!-- Progress Bar -->
+            <div class="relative w-48 h-5 bg-gray-700 border-2 border-white rounded-md mt-2 ">
+                <div class="absolute bg-yellow-500 h-full rounded-l-md"
+                    style="width: @(Math.Min((hero.Exp / (double)hero.ExpThreshold) * 100, 100))%"></div>
+                <div class="absolute inset-0 flex items-center justify-center text-white text-xs px-1">
+                    <p>@hero.Exp XP </p> / <p> @hero.ExpThreshold XP</p>
+                </div>
+            </div>
+        </div>
+
+        <NavButtons OnClick="GoShop">
+            <img src="image/store.png" class="h-8" alt="points" />
+        </NavButtons>
+
+        <NavigationBar />
+    }
+    else
+    {
+        <p class="text-white text-xl">Failed to load Hero data.</p>
+    }
+</div>
+
+
+@code {
+    private bool isLoading = true;
+    private Hero hero;
+    private bool showLevelUpToast = false;
+    private int hpIncrease;
+    private int dmgIncrease;
+
+    protected override async Task OnInitializedAsync()
+    {
+        HeroStateService.OnChange += StateHasChanged;
+        await LoadHeroData();
+    }
+
+    private async Task LoadHeroData()
+    {
+        try
+        {
+            hero = HeroStateService.Hero;
+            if (hero == null)
+            {
+                hero = await client.GetHero("1");
+                if (hero != null)
+                {
+                    HeroStateService.SetHero(hero);
+                }
+                else
+                {
+                    throw new Exception("Failed to load hero data.");
+                }
+            }
+
+            if (hero != null)
+            {
+                // Check if the hero needs to level up
+                bool leveledUp = false;
+                int oldLevel = hero.Level;
+                int oldHp = hero.Hp;
+                int oldDmg = hero.Dmg;
+
+                while (hero.Exp >= hero.ExpThreshold)
+                {
+                    hero.Level++;
+                    hero.Exp -= hero.ExpThreshold;
+                    hero.ExpThreshold = (int)(hero.ExpThreshold * 1.5);
+                    hero.Hp += 10; // Adjust as needed
+                    hero.Dmg += 2; // Adjust as needed
+                    leveledUp = true;
+                }
+
+                if (leveledUp)
+                {
+                    hpIncrease = hero.Hp - oldHp;
+                    dmgIncrease = hero.Dmg - oldDmg;
+                    showLevelUpToast = true;
+                }
+
+                HeroStateService.SetHero(hero);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching Hero: {ex.Message}");
+            hero = null; // Ensure hero is null if there's an error
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void CloseToast()
+    {
+        showLevelUpToast = false;
+        StateHasChanged();
+    }
+
+    private void GoShop() => NavigationManager.NavigateTo("/one");
+
+}

@@ -1,0 +1,27 @@
+@inject NavigationManager NavigationManager
+
+<div class="flex justify-around w-full gap-2 bg-red-700  ">
+    <NavButtons OnClick="GoTraining">
+        <img src="image/training.png" class="h-10" alt="points" />
+        <p>Training</p>
+    </NavButtons>
+    <NavButtons OnClick="GoArena">
+        <div class=" bg-red-700 rounded-md">
+            <img src="image/swords.png" class="h-10" alt="points" />
+            <p>Arena</p>
+        </div>
+
+    </NavButtons>
+    <NavButtons OnClick="GoShop" ButtonStyle="">
+        <img src="image/bar_chart.png" class="h-10" alt="" />
+        <p>Stats</p>
+    </NavButtons>
+
+</div>
+
+@code {
+
+    private void GoTraining() => NavigationManager.NavigateTo("/training");
+    private void GoArena() => NavigationManager.NavigateTo("/arena");
+    private void GoShop() => NavigationManager.NavigateTo("/shop");
+}

@@ -1,0 +1,23 @@
+<div class="flex w-full justify-between p-1  text-yellow-400 " style="background-color: rgba(140, 138, 138, 0.1);">
+    <div class="flex items-center gap-1">
+        <img src="image/level.png" class="h-8" alt="level" />
+        <p class=" font-semibold tracking-widest  text-sm">Level: @Level</p>
+    </div>
+    <div class=" bg-red-700  px-2 rounded-2xl flex justify-center items-center ">
+        <p class="  font-semibold text-yellow-300 tracking-widest uppercase">Kershnik</p>
+    </div>
+    <div class="flex  items-center px-1">
+        <img src="image/points.png" class="h-8" alt="points" />
+        <p class=" font-semibold tracking-widest text-sm">Points: @Points</p>
+    </div>
+</div>
+
+
+@code {
+    [Parameter]
+
+    public int Level { get; set; }
+
+    [Parameter]
+    public int Points { get; set; }
+}

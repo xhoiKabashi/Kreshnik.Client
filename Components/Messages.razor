@@ -1,0 +1,15 @@
+<div class="flex gap-2 px-4  mb-2">
+    <img src="svg/arrow_back_2.svg" alt="">
+    <div class="flex justify-center items-center flex-1 bg-cover bg-center  "
+        style="background-image: url('svg/notification.svg');">
+        @foreach (var message in ActionMessages)
+        {
+            <div class="text-yellow-400 text-center font-medium mb-2">@message</div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public List<string> ActionMessages { get; set; } = new List<string>();
+}

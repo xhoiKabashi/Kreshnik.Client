@@ -1,0 +1,83 @@
+<div class=" w-full flex  px-2 gap-3 justify-around my-1">
+
+    <div class=" flex flex-col items-center gap-1 text-text-main py-1">
+
+        <p
+            class=" w-full text-center bg-bg-second border-2   border-border-main  rounded-md uppercase font-semibold tracking-widest">
+            Kreshnik</p>
+
+        <div class=" flex justify-around gap-1 text-text-main py-1">
+            <div
+                class=" flex justify-center items-center gap-1   px-1  bg-bg-second  border-2   border-border-main rounded-md">
+                <img src="svg/gladius.svg" alt="" class="h-7" />
+                <p class="text-base tracking-widest font-semibold">@HeroDamage</p>
+            </div>
+            <div
+                class=" flex justify-center items-center gap-1   px-1  bg-bg-second border-2   border-border-main  rounded-md">
+                <img src="svg/breastplate.svg" alt="" class=" h-7" />
+                <p class="text-base tracking-widest font-semibold">@HeroArmor</p>
+            </div>
+            <div
+                class=" flex justify-center items-center gap-1  px-1  bg-bg-second border-2   border-border-main  rounded-md">
+                <img src="svg/sonic-shoes.svg" alt="" class=" h-7" />
+                <p class="text-base tracking-widest font-semibold">@HeroSpeed</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class=" flex flex-col items-center gap-1 text-text-main py-1">
+        <p
+            class=" w-full text-center bg-bg-second border-2   border-border-main  rounded-md uppercase font-semibold tracking-widest">
+            Ulqini</p>
+        <div class=" flex justify-around gap-1 text-text-main py-1">
+            <div
+                class=" flex justify-center items-center gap-1   px-1  bg-bg-second border-2   border-border-main  rounded-md">
+                <img src="svg/gladius.svg" alt="" class="h-7" />
+                <p class="text-base tracking-widest font-semibold">@EnemyDamage</p>
+            </div>
+            <div
+                class=" flex justify-center items-center gap-1   px-1  bg-bg-second border-2   border-border-main  rounded-md">
+                <img src="svg/breastplate.svg" alt="" class=" h-7" />
+                <p class="text-base tracking-widest font-semibold">@EnemyArmor</p>
+            </div>
+            <div
+                class=" flex justify-center items-center gap-1 px-1  bg-bg-second border-2   border-border-main  rounded-md">
+                <img src="svg/sonic-shoes.svg" alt="" class=" h-7" />
+                <p class="text-base tracking-widest font-semibold">@EnemySpeed</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+@code {
+
+    public bool HeroHeathing { get; set; }
+
+    [Parameter]
+
+    public int? HeroSpeed { get; set; }
+    [Parameter]
+
+    public int? HeroDamage { get; set; }
+    [Parameter]
+
+    public int? HeroArmor { get; set; }
+
+    [Parameter]
+
+    public int EnemySpeed { get; set; }
+    [Parameter]
+
+    public int EnemyDamage { get; set; }
+    [Parameter]
+
+    public int EnemyArmor { get; set; }
+
+
+}

@@ -1,0 +1,279 @@
+<div class="grid grid-cols-2 gap-4 h-1/2 w-full p-2 bg-cover bg-center border-1 border-border-main rounded-sm"
+    style="background-image: url('image/bg01.jpg');">
+    <div class=" flex flex-col justify-end items-center translate-x-1 transition-all">
+
+        <div class="h-10">
+            @if (isHeroTurn)
+            {
+                <img src="svg/plain-arrow.svg" alt="arrow" class="h-6 object-cover animate-bounce">
+            }
+        </div>
+
+        <div class="flex justify-center h-10 w-full">
+            @if (HeroUpgradeArmor)
+            {
+                <div class="flex">
+                    <img src="svg/armor-upgrade.svg" alt="arrow" class="h-6 object-cover animate-bounce">
+                    <p class="font-bold animate-bounce">+ 10 Armor</p>
+                </div>
+            }
+
+            @if (HeroIsGettingDmg)
+            {
+                <div class="flex">
+                    <img src="svg/wrapped-heart.svg" alt="arrow" class="h-6 object-cover animate-bounce">
+                    <p class="font-bold animate-bounce  text-red-700  tracking-widest">
+                        - @HeroDamageTaken
+                    </p>
+                </div>
+            }
+            @if (HeroIsHealing)
+            {
+                <div class="flex">
+                    <img src="svg/health-normal.svg" alt="arrow" class="h-6 object-cover animate-bounce">
+                    <p class="font-bold animate-bounce  text-blue-700">+ @HeroHpAdded</p>
+                </div>
+            }
+
+        </div>
+
+        <!-- Hero Images -->
+
+
+        <div>
+            <img src="image/hero/KreshnikHeal.png" alt="Hero Image" class="w-full h-52 object-cover"
+                style="display: @(HeroIsHealing ? "block" : "none")">
+        </div>
+        <div>
+            <img src="image/hero/KreshnikAtt.png" alt="Enemy Image" class="w-full h-52 object-cover scale-105"
+                style="display: @(HeroIsAtt ? "block" : "none")">
+        </div>
+
+        <div>
+            <img src="image/hero/kreshnikDef.png" alt="Hero Image" class="w-full h-52 object-cover"
+                style="display: @(HeroUpgradeArmor ? "block" : "none")">
+        </div>
+        <div>
+            <img src="image/hero/KreshnikBlessed.png" alt="Hero Image" class="w-full h-52 object-cover scale-105"
+                style="display: @(HeroIsBessing ? "block" : "none")">
+        </div>
+
+        <div>
+            <img src="image/hero/KreshnikStand.png" alt="Hero Image" class="w-full h-52 object-cover"
+                style="display: @(!HeroIsHealing && !HeroUpgradeArmor && !HeroIsAtt && !HeroIsBessing ? "block" : "none")">
+        </div>
+
+    </div>
+
+    <div class="flex flex-col justify-end items-center translate-x-1 transition-all">
+        <div class="h-10">
+            @if (isEnemyTurn)
+            {
+                <img src="svg/plain-arrow.svg" alt="arrow" class="h-6 object-cover animate-bounce">
+            }
+        </div>
+
+        <div class="flex justify-center h-10 w-full">
+            @if (EnemyUpgradeArmor)
+            {
+                <div class="flex">
+                    <img src="svg/armor-upgrade.svg" alt="arrow" class="h-6 object-cover animate-bounce">
+                    <p class="font-bold animate-bounce">+ 10 Armor</p>
+                </div>
+            }
+
+            @if (EnemyIsGettingDmg)
+            {
+                <div class="flex">
+                    <img src="svg/wrapped-heart.svg" alt="arrow" class="h-6 object-cover animate-bounce">
+                    <p class="font-bold animate-bounce   text-red-700 tracking-widest">
+                        - @EnemyDamageTaken</p>
+                </div>
+            }
+            @if (EnemyIsHealing)
+            {
+                <div class="flex">
+                    <img src="svg/health-normal.svg" alt="arrow" class="h-6 object-cover animate-bounce">
+                    <p class="font-bold animate-bounce  text-blue-700">+ @EnemyHpAdded</p>
+                </div>
+            }
+
+        </div>
+
+        <!-- Enemy Images -->
+
+        <div>
+            <img src="image/hero/ulqniHealth.png" alt="Hero Image" class="w-full h-52  object-cover"
+                style="display: @(EnemyIsHealing ? "block" : "none")">
+        </div>
+        <div>
+
+            <img src="image/hero/ulqiniAtt.png" alt="Enemy Image" class="w-full  h-60 object-cover"
+                style="display: @(EnemyIsAtt ? "block" : "none")">
+        </div>
+        <div>
+            <img src="image/hero/ulqiniDef.png" alt="Hero Image" class="w-full h-52 object-cover scale-105"
+                style="display: @(EnemyUpgradeArmor ? "block" : "none")">
+        </div>
+        <div>
+            <img src="image/hero/ulqinBlessing.png" alt="Hero Image" class="w-full h-52 object-cover scale-105"
+                style="display: @(EnemyIsBessing ? "block" : "none")">
+        </div>
+
+        <div>
+            <img src="image/hero/ulqiniStand.png" alt="Hero Image" class="w-full h-52 object-cover"
+                style="display: @(!EnemyIsHealing && !EnemyUpgradeArmor && !EnemyIsAtt &&  !EnemyIsBessing  ? "block" : "none")">
+        </div>
+
+
+
+
+
+    </div>
+</div>
+<audio id="healingAudio" src="audio/blessing2.ogg"></audio>
+<audio id="attackingAudio" src="audio/slightscream-12.ogg"></audio>
+<audio id="metal" src="audio/metalboom.ogg"></audio>
+<audio id="armor" src="audio/armor.wav"></audio>
+<audio id="rage" src="audio/rage.mp3"></audio>
+
+
+
+
+@code {
+    [Parameter]
+    public bool HeroIsBessing { get; set; }
+    [Parameter]
+    public bool EnemyIsBessing { get; set; }
+    [Parameter]
+    public int HeroDamageTaken { get; set; }
+    [Parameter]
+    public int EnemyDamageTaken { get; set; }
+    [Parameter]
+    public int HeroHpAdded { get; set; }
+    [Parameter]
+    public int EnemyHpAdded { get; set; }
+
+    [Parameter]
+    public bool isHeroTurn { get; set; }
+    [Parameter]
+    public bool HeroIsHealing { get; set; }
+    [Parameter]
+    public bool HeroUpgradeArmor { get; set; }
+    [Parameter]
+    public bool HeroIsGettingDmg { get; set; }
+    [Parameter]
+    public bool isEnemyTurn { get; set; }
+    [Parameter]
+    public bool EnemyIsHealing { get; set; }
+    [Parameter]
+    public bool EnemyUpgradeArmor { get; set; }
+    [Parameter]
+    public bool EnemyIsGettingDmg { get; set; }
+    [Parameter]
+    public bool HeroIsAtt { get; set; }
+    [Parameter]
+    public bool EnemyIsAtt { get; set; }
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; }
+
+    private bool shouldPlayAudio = false;
+    private bool AudioAtt = false;
+    private bool AudioDef = false;
+    private bool AudioRage = false;
+
+
+
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (HeroIsHealing)
+        {
+            shouldPlayAudio = true;
+        }
+        else if (EnemyIsHealing)
+        {
+            shouldPlayAudio = true;
+        }
+        if (HeroIsAtt)
+        {
+            AudioAtt = true;
+        }
+        else if (EnemyIsAtt)
+        {
+            AudioAtt = true;
+        }
+        if (HeroUpgradeArmor)
+        {
+            AudioDef = true;
+        }
+        else if (EnemyUpgradeArmor)
+        {
+            AudioDef = true;
+        }
+        if (HeroIsBessing)
+        {
+            AudioRage = true;
+        }
+        else if (EnemyIsBessing)
+        {
+            AudioRage = true;
+
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (shouldPlayAudio)
+        {
+            await PlayHealingAudio();
+            shouldPlayAudio = false;
+        }
+        if (AudioAtt)
+        {
+            await PlayAttAudio();
+            AudioAtt = false;
+        }
+        if (AudioDef)
+        {
+            await PlayDefAudio();
+            AudioDef = false;
+        }
+        if (AudioRage)
+        {
+            await PlayRageAudio();
+            AudioRage = false;
+        }
+    }
+
+    private async Task PlayHealingAudio()
+    {
+        await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('healingAudio').volume = 0.3;");
+
+        await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('healingAudio').play()");
+    }
+    private async Task PlayRageAudio()
+    {
+        await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('rage').volume = 0.3;");
+
+        await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('rage').play()");
+    }
+    private async Task PlayAttAudio()
+    {
+        await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('attackingAudio').volume = 0.3;");
+
+        await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('attackingAudio').play()");
+        await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('metal').play()");
+
+    }
+    private async Task PlayDefAudio()
+    {
+        await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('armor').volume = 0.5;");
+
+        await JSRuntime.InvokeVoidAsync("eval", "document.getElementById('armor').play()");
+
+
+    }
+
+
+}
