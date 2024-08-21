@@ -1,22 +1,19 @@
-# Use the official .NET SDK image to build the application
+# Use the official .NET SDK image to build the app
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-# Copy the project files and restore the dependencies
+# Copy the csproj and restore as distinct layers
 COPY *.csproj ./
 RUN dotnet restore
 
-# Copy the rest of the application files
+# Copy the rest of the code and build the app
 COPY . ./
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -c Release -o /app/publish
 
-# Use the official .NET runtime image to run the application
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# Use the official .NET runtime image to run the app
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
-COPY --from=build /app/out ./
+COPY --from=build /app/publish .
 
-# Expose port 80 for the application
-EXPOSE 80
-
-# Run the application
-ENTRYPOINT ["dotnet", "BlazorDex.dll"]
+# Set the entry point for the container
+ENTRYPOINT ["dotnet", "Kreshnik.Client.dll"]
