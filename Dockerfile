@@ -16,4 +16,4 @@ WORKDIR /app
 COPY --from=build /app/publish .
 
 # Set the entry point for the container
-ENTRYPOINT ["dotnet", "Kreshnik.Client.dll"]
+ENTRYPOINT ["dotnet", "BlazorDex.dll"]
