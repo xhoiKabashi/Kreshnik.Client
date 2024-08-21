@@ -30,9 +30,8 @@ secrets.json
 *.tmp
 
 # Ignore Docker-related files
-Dockerfile
 docker-compose.yml
-*.dockerignore
+
 
 # Ignore other generated files
 *.log
