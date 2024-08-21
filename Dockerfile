@@ -6,7 +6,7 @@ EXPOSE 80
 # Use the SDK image to build and publish the app
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["Kreshnik.ClientBlazorDex.csproj", "Kreshnik.Client/"]
+COPY ["Kreshnik.Client/BlazorDex.csproj", "Kreshnik.Client/"]
 RUN dotnet restore "Kreshnik.Client/BlazorDex.csproj"
 COPY . .
 WORKDIR "/src/Kreshnik.Client"
