@@ -1,19 +1,18 @@
-# Use the official .NET SDK image to build the app
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+# Use the official .NET 8.0 SDK image
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
+EXPOSE 80
 
-# Copy the csproj and restore as distinct layers
-COPY BlazorDex.csproj ./
-RUN dotnet restore
+# Use the SDK image to build and publish the app
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY ["BlazorDex.csproj", "./"]
+RUN dotnet restore "./BlazorDex.csproj"
+COPY . .
+RUN dotnet publish "BlazorDex.csproj" -c Release -o /app/publish
 
-# Copy the rest of the code and build the app
-COPY . ./
-RUN dotnet publish -c Release -o /app/publish
-
-# Use the official .NET runtime image to run the app
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+# Copy the app to the base image and set the entry point
+FROM base AS final
 WORKDIR /app
 COPY --from=build /app/publish .
-
-# Set the entry point for the container
 ENTRYPOINT ["dotnet", "BlazorDex.dll"]
